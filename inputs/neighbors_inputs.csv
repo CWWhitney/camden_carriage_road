@@ -1,0 +1,8 @@
+"variable","lower","upper","distribution","label","Description"
+"nb_households",20,80,"posnorm","Households near the route, not hosting","PLACEHOLDER range - to be elicited from this stakeholder group"
+"nb_noise_pts_per_1000_trips",0.01,0.1,"posnorm","Nuisance per household per 1000 trips (pts)","PLACEHOLDER range - to be elicited from this stakeholder group"
+"nb_trespass_usd_per_1000_trips",5,40,"posnorm","Litter/trespass/parking cost per 1000 trips (USD)","PLACEHOLDER range - to be elicited from this stakeholder group"
+"nb_home_value",3e+05,7e+05,"posnorm","Typical home value (USD)","PLACEHOLDER range - to be elicited from this stakeholder group"
+"nb_property_effect_pct",-0.02,0.04,"norm","Home value effect of path nearby (fraction)","PLACEHOLDER range - to be elicited from this stakeholder group"
+"nb_kid_mobility_pts",0.2,1.5,"posnorm","Wellbeing from kids riding safely (pts/household/yr)","PLACEHOLDER range - to be elicited from this stakeholder group"
+"nb_discount_rate",0.03,0.08,"tnorm_0_1","Discount rate (neighbors)","PLACEHOLDER range - to be elicited from this stakeholder group"

@@ -1,0 +1,6 @@
+"variable","lower","upper","distribution","label","Description"
+"fm_timber_value_per_ha",3000,9000,"posnorm","Standing timber and site value (USD/ha)","PLACEHOLDER range - to be elicited from this stakeholder group"
+"fm_access_saving_usd_yr",0,3000,"unif","Annual saving from a maintained corridor for operations (USD/yr)","PLACEHOLDER range - to be elicited from this stakeholder group"
+"fm_invasives_usd_per_edge_ha_yr",20,120,"posnorm","Invasive control per edge hectare (USD/ha/yr)","PLACEHOLDER range - to be elicited from this stakeholder group"
+"fm_enforcement_usd_per_1000_trips",5,30,"posnorm","Signage, patrols, repairs per 1000 trips (USD)","PLACEHOLDER range - to be elicited from this stakeholder group"
+"fm_discount_rate",0.03,0.07,"tnorm_0_1","Discount rate (forest managers)","PLACEHOLDER range - to be elicited from this stakeholder group"

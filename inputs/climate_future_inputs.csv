@@ -1,0 +1,8 @@
+"variable","lower","upper","distribution","label","Description"
+"cl_kgco2_per_car_km",0.15,0.3,"posnorm","Emissions per car km (kgCO2e)","PLACEHOLDER range - to be elicited from this stakeholder group"
+"cl_construction_tco2e_per_km_path",20,120,"posnorm","Embodied emissions of building the path (tCO2e/km)","PLACEHOLDER range - to be elicited from this stakeholder group"
+"cl_shoulder_construction_ratio",0.2,0.5,"tnorm_0_1","Shoulder embodied emissions as a fraction of path","PLACEHOLDER range - to be elicited from this stakeholder group"
+"cl_social_cost_usd_per_tco2e",50,250,"posnorm","Social cost of carbon (USD/tCO2e)","PLACEHOLDER range - to be elicited from this stakeholder group"
+"cl_youth_pts_per_km",0.2,1.2,"posnorm","Independent mobility for young riders per km of path per yr (pts)","PLACEHOLDER range - to be elicited from this stakeholder group"
+"cl_dev_pressure_ha",0,5,"unif","Extra forest developed because of improved access (ha)","PLACEHOLDER range - to be elicited from this stakeholder group"
+"cl_discount_rate",0,0.02,"unif","Discount rate (future residents: near zero)","PLACEHOLDER range - to be elicited from this stakeholder group"

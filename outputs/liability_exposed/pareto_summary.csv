@@ -1,0 +1,12 @@
+"option","label","groups_better_off","groups_worse_off","pareto_efficient","dominated_by","prob_dominated"
+"status_quo","Status quo",0,0,TRUE,"",0
+"shoulders","Widened shoulders",1,5,TRUE,"",0.002
+"shoulders_speed","Shoulders + lower speed limit",1,5,TRUE,"",0
+"carriage_path","Separated carriage path (one-off easement)",4,7,FALSE,"path_donated",0.971333333333333
+"path_compensated","Path + doubled one-off payment",4,7,FALSE,"path_donated",0.854
+"path_annual","Path + annual payments (no one-off)",4,7,FALSE,"path_donated",0.994666666666667
+"path_oneoff_annual","Path + one-off and annual payments",4,7,FALSE,"path_donated",0.927333333333333
+"path_donated","Path + donated easement (no payment)",5,6,TRUE,"",0
+"path_cost_sharing","Path + binding cost-sharing agreement",3,7,FALSE,"path_donated",0.842
+"path_mitigated","Path + footprint mitigation",4,6,TRUE,"",0
+"partial_path","Partial path (40% of route)",3,6,TRUE,"",0

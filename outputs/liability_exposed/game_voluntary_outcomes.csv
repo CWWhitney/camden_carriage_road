@@ -1,0 +1,19 @@
+"outcome","label","nash_prob","nash_at_mean","pay_town","pay_landowners","pay_snowbowl","pay_business","pareto_efficient_agents"
+"status_quo","Status quo (nothing built)",0.762666666666667,TRUE,0,0,0,0,TRUE
+"path_donated_00","Path, donated easement; Snow Bowl free-rides, business free-rides",0.296666666666667,FALSE,-0.000376412620777857,0.0418133102947036,0.125572235275238,0.240107493035625,TRUE
+"path_donated_01","Path, donated easement; Snow Bowl free-rides, business pays",0.296666666666667,FALSE,-0.000376412620777857,0.0418133102947036,0.125572235275238,0.240107493035625,TRUE
+"path_donated_10","Path, donated easement; Snow Bowl pays, business free-rides",0.294666666666667,FALSE,-0.000376412620777857,0.0418133102947036,0.125572235275238,0.240107493035625,TRUE
+"path_donated_11","Path, donated easement; Snow Bowl pays, business pays",0.294666666666667,FALSE,-0.000376412620777857,0.0418133102947036,0.125572235275238,0.240107493035625,TRUE
+"shoulders_00","Shoulders; Snow Bowl free-rides, business free-rides",0.158,FALSE,-0.0407334672715291,0.00177387348167176,0.011620698928563,0.029550086711287,FALSE
+"partial_nohost","Partial path on public land only (landowners refuse)",0.0166666666666667,FALSE,-0.0768623175700219,0,0.0502288941100954,0.0960429972142501,FALSE
+"carriage_path_00","Path, one-off payment; Snow Bowl free-rides, business free-rides",0.002,FALSE,-0.0941681127444861,-0.131149428294178,0.125572235275238,0.240107493035625,FALSE
+"carriage_path_01","Path, one-off payment; Snow Bowl free-rides, business pays",0,FALSE,-0.0893391432835147,-0.131149428294178,0.125572235275238,0.202549312953995,FALSE
+"carriage_path_10","Path, one-off payment; Snow Bowl pays, business free-rides",0,FALSE,-0.0522258129710704,-0.131149428294178,0.0878904318208197,0.240107493035625,FALSE
+"carriage_path_11","Path, one-off payment; Snow Bowl pays, business pays",0,FALSE,-0.047396843510099,-0.131149428294178,0.0878904318208197,0.202549312953995,FALSE
+"path_annual_00","Path, annual payments; Snow Bowl free-rides, business free-rides",0,FALSE,-0.0699734093476783,-0.15408161662971,0.125572235275238,0.240107493035625,FALSE
+"path_annual_01","Path, annual payments; Snow Bowl free-rides, business pays",0,FALSE,-0.0663811022663197,-0.15408161662971,0.125572235275238,0.223578630173331,FALSE
+"path_annual_10","Path, annual payments; Snow Bowl pays, business free-rides",0,FALSE,-0.0388015282972155,-0.15408161662971,0.108899316776878,0.240107493035625,FALSE
+"path_annual_11","Path, annual payments; Snow Bowl pays, business pays",0,FALSE,-0.0352092212158569,-0.15408161662971,0.108899316776878,0.223578630173331,FALSE
+"shoulders_01","Shoulders; Snow Bowl free-rides, business pays",0,FALSE,-0.0401666366555649,0.00177387348167176,0.011620698928563,0.0251414594622996,FALSE
+"shoulders_10","Shoulders; Snow Bowl pays, business free-rides",0,FALSE,-0.0357706516791068,0.00177387348167176,0.00716200584915508,0.029550086711287,FALSE
+"shoulders_11","Shoulders; Snow Bowl pays, business pays",0,FALSE,-0.0352038210631426,0.00177387348167176,0.00716200584915508,0.0251414594622996,FALSE

@@ -1,0 +1,10 @@
+"outcome","label","nash_prob","nash_at_mean","pay_town","pay_landowners","pay_snowbowl","pay_business","pareto_efficient_agents"
+"status_quo","Status quo (nothing built)",0.718,TRUE,0,0,0,0,FALSE
+"path_donated_11_bind","Path, donated easement; binding cost-sharing",0.240666666666667,TRUE,0.0161388206296741,0.0402116618122629,0.0575762246733309,0.154749553086726,TRUE
+"shoulders_00","Shoulders; Snow Bowl free-rides, business free-rides",0.154,FALSE,-0.0407334672715291,0.00055622108811416,0.011620698928563,0.029550086711287,FALSE
+"carriage_path_11_bind","Path, one-off payment; binding cost-sharing",0.0613333333333333,FALSE,-0.030881610259647,0.0106052961387684,0.0198944212189122,0.117191373005096,FALSE
+"partial_nohost_bind","Partial path on public land only (landowners refuse); binding cost-sharing",0.028,FALSE,-0.0702562242698411,0,0.0230304898693324,0.0618998212346902,FALSE
+"path_annual_11_bind","Path, annual payments; binding cost-sharing",0.004,FALSE,-0.0186939879654049,-0.0256970092016127,0.0409033061749703,0.138220690224431,FALSE
+"shoulders_01","Shoulders; Snow Bowl free-rides, business pays",0,FALSE,-0.0401666366555649,0.00055622108811416,0.011620698928563,0.0251414594622996,FALSE
+"shoulders_10","Shoulders; Snow Bowl pays, business free-rides",0,FALSE,-0.0357706516791068,0.00055622108811416,0.00716200584915508,0.029550086711287,FALSE
+"shoulders_11","Shoulders; Snow Bowl pays, business pays",0,FALSE,-0.0352038210631426,0.00055622108811416,0.00716200584915508,0.0251414594622996,FALSE

@@ -1,0 +1,7 @@
+"variable","lower","upper","distribution","label","Description"
+"tb_visitor_share",0.2,0.5,"tnorm_0_1","Share of added bike trips by non-local visitors","PLACEHOLDER range - to be elicited from this stakeholder group"
+"tb_spend_per_visitor_day",25,90,"posnorm","Local spend per visitor-day (USD)","PLACEHOLDER range - to be elicited from this stakeholder group"
+"tb_margin",0.1,0.25,"tnorm_0_1","Net margin on that spend","PLACEHOLDER range - to be elicited from this stakeholder group"
+"tb_revenue_per_fte",60000,120000,"posnorm","Revenue supporting one seasonal FTE (USD)","PLACEHOLDER range - to be elicited from this stakeholder group"
+"tb_brand_pts_per_km",0.2,2,"posnorm","Destination brand value per km of safe path per yr (pts)","PLACEHOLDER range - to be elicited from this stakeholder group"
+"tb_discount_rate",0.05,0.12,"tnorm_0_1","Discount rate (business)","PLACEHOLDER range - to be elicited from this stakeholder group"

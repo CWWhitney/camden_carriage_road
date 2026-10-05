@@ -48,3 +48,8 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+# Project-specific
+.DS_Store
+# regenerable Monte Carlo draws (about 6 MB per scenario)
+outputs/**/mc_results.rds

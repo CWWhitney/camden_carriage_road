@@ -1,0 +1,6 @@
+"variable","lower","upper","distribution","label","Description"
+"tw_assessed_uplift_per_km",20000,150000,"posnorm","Added assessed value per km of path (USD/km)","PLACEHOLDER range - to be elicited from this stakeholder group"
+"tw_tax_rate",0.01,0.02,"tnorm_0_1","Effective property tax rate","PLACEHOLDER range - to be elicited from this stakeholder group"
+"tw_ems_cost_per_injury",1500,6000,"posnorm","Public EMS cost per injury crash (USD)","PLACEHOLDER range - to be elicited from this stakeholder group"
+"tw_winter_maint_per_km_yr",500,3000,"posnorm","Winter maintenance of path per km (USD/yr)","PLACEHOLDER range - to be elicited from this stakeholder group"
+"tw_discount_rate",0.02,0.05,"tnorm_0_1","Discount rate (town)","PLACEHOLDER range - to be elicited from this stakeholder group"

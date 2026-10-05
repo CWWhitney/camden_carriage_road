@@ -1,0 +1,7 @@
+"variable","lower","upper","distribution","label","Description"
+"hk_regular_hikers",150,600,"posnorm","Regular hikers using the corridor","PLACEHOLDER range - to be elicited from this stakeholder group"
+"hk_wellbeing_pts_per_trip",0.05,0.25,"posnorm","Wellbeing per added walk trip (pts)","PLACEHOLDER range - to be elicited from this stakeholder group"
+"hk_solitude_pts_per_1000_bike_trips",0.02,0.15,"posnorm","Solitude lost per regular hiker per 1000 added bike trips (pts)","PLACEHOLDER range - to be elicited from this stakeholder group"
+"hk_conflicts_per_1000_bike_trips_per_hiker_group",0.01,0.1,"posnorm","Conflict incidents per 1000 added bike trips (per 100 hikers)","PLACEHOLDER range - to be elicited from this stakeholder group"
+"hk_wild_pts_per_ha",0.5,5,"posnorm","Wild-character loss per hectare cleared (pts)","PLACEHOLDER range - to be elicited from this stakeholder group"
+"hk_discount_rate",0.02,0.06,"tnorm_0_1","Discount rate (hikers)","PLACEHOLDER range - to be elicited from this stakeholder group"

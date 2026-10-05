@@ -1,0 +1,6 @@
+"variable","lower","upper","distribution","label","Description"
+"cy_injury_cost_usd",8000,60000,"posnorm","Cost of an injury crash to the rider (USD)","PLACEHOLDER range - to be elicited from this stakeholder group"
+"cy_health_usd_per_km",0.3,1.2,"posnorm","Physical-activity health benefit per km ridden (USD)","PLACEHOLDER range - to be elicited from this stakeholder group"
+"cy_wellbeing_pts_per_new_trip",0.05,0.3,"posnorm","Wellbeing per additional trip (pts)","PLACEHOLDER range - to be elicited from this stakeholder group"
+"cy_stress_relief_pts_per_trip",0.05,0.4,"posnorm","Wellbeing from reduced fear on each existing trip (pts)","PLACEHOLDER range - to be elicited from this stakeholder group"
+"cy_discount_rate",0.02,0.06,"tnorm_0_1","Discount rate (cyclists)","PLACEHOLDER range - to be elicited from this stakeholder group"
