@@ -82,7 +82,7 @@ welfare_heatmap <- function(idx, stakeholders, psum, metric = c("index", "npv"))
                   title = "Who gains and who loses under each option",
                   subtitle = if (metric == "npv") "Median within-group NPV vs status quo, thousands of USD-equivalent (color scaled within each row).\n* = Pareto-efficient. PLACEHOLDER INPUTS." else "Median welfare index vs status quo (equal-weight mean of each group's scaled values).\n* = Pareto-efficient. PLACEHOLDER INPUTS.") +
     ggplot2::theme_minimal(base_size = 10) +
-    ggplot2::theme(panel.grid = ggplot2::element_blank())
+    ggplot2::theme(panel.grid = ggplot2::element_blank(), plot.margin = ggplot2::margin(10, 40, 5, 5))
 }
 
 # Two-axis view: one group vs everyone else, with the Pareto frontier ----------

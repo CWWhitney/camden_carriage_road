@@ -1,0 +1,5 @@
+"route","start_elev_m","end_elev_m","net_climb_m","total_ascent_m","mean_grade_pct","max_100m_grade_pct","pct_over_8"
+"A road corridor (Hosmer Pond Road idea)",10.651568413,137.234283447,127,189,1.8,15.4,11
+"B existing trails where possible",10.61241436,137.234283447,127,189,1.8,15.4,11
+"C park land where possible",10.651568413,137.234283447,127,189,1.8,15.4,11
+"D avoiding Hosmer Pond Road",10.592413902,137.234283447,127,229,1.6,15.4,12

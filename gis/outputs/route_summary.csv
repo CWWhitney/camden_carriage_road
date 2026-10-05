@@ -1,0 +1,5 @@
+"route","length_km","pct_trail","pct_in_park","pct_hosmer_pond_road","main_names","straight_line_km"
+"A road corridor (Hosmer Pond Road idea)",6.91,0,0,46,"Hosmer Pond Road; Mechanic Street; Barnestown Road; Upper Mechanic Street; Ragged Mountain Road",5.98
+"B existing trails where possible",6.92,7,0,46,"Hosmer Pond Road; Mechanic Street; Barnestown Road; (unnamed); Upper Mechanic Street",5.98
+"C park land where possible",6.91,0,0,46,"Hosmer Pond Road; Mechanic Street; Barnestown Road; Upper Mechanic Street; Ragged Mountain Road",5.98
+"D avoiding Hosmer Pond Road",7.87,6,0,0,"Melvin Heights Road; Molyneaux Road; Mechanic Street; Barnestown Road; (unnamed)",5.98

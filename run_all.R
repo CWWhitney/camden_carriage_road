@@ -72,7 +72,7 @@ run_scenario <- function(liability) {
          width = 8, height = 6, dpi = 130, bg = "white")
 
   # Stage 2: agent game, under each mechanism (voluntary contributions vs binding cost-sharing)
-  n_game <- min(n_runs, 1500)                     # the game re-evaluates 22 configurations
+  n_game <- min(n_runs, 1500)                     # the game re-evaluates the distinct configurations
   mc_g <- list(x = mc$x[seq_len(n_game), ])
   cfgs <- all_configs()
   cidx <- config_indices(mc_g, summ, stakeholders, cfgs, liability)
@@ -108,7 +108,7 @@ run_scenario <- function(liability) {
   sens_all <- do.call(rbind, sens_all)
   write.csv(sens_all, file.path(out, "game_mechanism_comparison.csv"), row.names = FALSE)
 
-  # Design of the binding agreement: which terms leave all four players better off?
+  # Design of the binding agreement: which terms leave all three players better off?
   grid <- mechanism_grid(mc, summ, stakeholders, liability, n = 400)
   write.csv(grid, file.path(out, "mechanism_design_grid.csv"), row.names = FALSE)
   ggsave(file.path(out, "mechanism_design_grid.png"), plot_mechanism_grid(grid),

@@ -1,0 +1,165 @@
+---
+title: "A carriage-road path from downtown Camden to the Snow Bowl: who gains, who gives, who pays?"
+author: "Cory Whitney"
+date: "`r format(Sys.Date(), '%d %B %Y')`"
+output:
+  html_document:
+    self_contained: true
+    theme: flatly
+    toc: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.width = 9, fig.height = 6, dpi = 130,
+                      fig.align = "center")
+knitr::opts_knit$set(root.dir = normalizePath(".."))
+```
+
+```{r setup2, include=FALSE}
+library(ggplot2)
+for (f in list.files("R", full.names = TRUE)) source(f)
+stakeholders <- load_stakeholders("stakeholders")
+rd <- function(f) read.csv(f, stringsAsFactors = FALSE)
+img <- function(...) knitr::include_graphics(normalizePath(c(...)), rel_path = FALSE)
+rs <- rd("gis/outputs/route_summary.csv"); ps <- rd("gis/outputs/parcel_summary.csv"); gs <- rd("gis/outputs/grade_summary.csv")
+A <- rs[1, ]; D <- rs[4, ]; pA <- ps[1, ]; gA <- gs[grepl("^A", gs$route), ]
+```
+
+<style>
+ body { max-width: 860px; margin: 0 auto; font-size: 17px; line-height: 1.55; }
+ .draft { background:#fff6e0; border-left:5px solid #e08214; padding:10px 16px; margin:18px 0; }
+ .box { background:#eef4fa; border-left:5px solid #2166AC; padding:10px 16px; margin:18px 0; }
+</style>
+
+<div class="draft">
+<b>Draft for discussion.</b> This is a thinking tool, not a recommendation. The route facts below come
+from public map data. The dollar and benefit figures behind the charts are <b>placeholders</b> I made up
+so the model runs; none has been measured or agreed with anyone yet. The point of publishing now is to
+ask the right people for the real numbers.
+</div>
+
+## The question
+
+Should Camden build a separated carriage-road path between downtown and the Camden Snow Bowl, instead of
+relying on Hosmer Pond Road as it is today? People look at the same stretch of ground and see very
+different things: a safer ride, a quiet home, a working forest, a ski hill that needs visitors, a tax
+bill. This project writes each of those views down on its own terms, then lines them up side by side.
+
+## What the map says
+
+```{r map, fig.height=6.2}
+plot_routes_map()
+```
+
+* The most direct connection follows **Mechanic Street, Hosmer Pond Road and Barnestown Road**:
+  `r A$length_km` km on the map, against `r A$straight_line_km` km in a straight line.
+* The best alternative that avoids Hosmer Pond Road is a northern loop of `r D$length_km` km, about
+  `r round(100 * (D$length_km / A$length_km - 1))`% longer.
+* A path beside the main route would pass about **`r pA$parcels_touched` tax parcels**
+  (`r pA$private_parcels_touched` privately owned, `r pA$public_parcels_touched` public or conservation
+  land). That is a lot of neighbors to talk to, whichever design is chosen.
+* The climb from downtown to the road base is about **`r gA$net_climb_m` m** over the route
+  (`r gA$total_ascent_m` m of total ascent; steepest 100 m stretch about `r gA$max_100m_grade_pct`%).
+
+```{r elev, fig.height=3.8}
+plot_elevation()
+```
+
+## The Snow Bowl is the Town
+
+The Snow Bowl is owned by the Town and run by Parks and Recreation. In the Town's FY2026 budget message
+it is listed among the "special revenue funds", separate from the General Fund, and the manager writes
+that it "remains difficult for the Snow Bowl to turn a profit." So a path is not a deal between the Town
+and some outside business. It is **one budget with two pockets**:
+
+* the **General Fund** (taxes), which would carry most of the construction and upkeep, and
+* the **Snow Bowl fund**, which would earn more from added visitors, for example from mountain-biking
+  and bikepacking visitors (a possible growth area), but also carries more liability.
+
+A natural design is to **earmark the Snow Bowl's added margin** to the path, and ask the model whether
+that is enough.
+
+```{r pockets, fig.height=4.8}
+plot_budget_pockets()
+```
+
+## Who sees what
+
+Eleven groups started as separate voices; with the Snow Bowl folded into the Town there are ten:
+hosting landowners, neighbors, forest managers, the ecosystem, cyclists, hikers, drivers, the Town,
+tourism and business, and climate and future residents. Each gets its own cause-and-effect diagram and
+its own measures of a good outcome. Blue below means a group gains, red means a loss. Bigger bubbles are
+bigger effects on that group's own scale; fainter bubbles mean we are less sure of the direction.
+
+```{r bubble, fig.width=10, fig.height=12}
+summ <- rd("outputs/liability_protected/value_summary.csv")
+bubble_matrix(summ, stakeholders,
+              options = c("shoulders", "carriage_path", "path_donated", "partial_path"),
+              title = "Who gains and who loses, in each group's own terms")
+```
+
+<div class="box">
+<b>No option is free of losers.</b> With these placeholder numbers, a path helps cyclists, drivers and
+business and costs the forest and ecosystem groups, so choosing is partly choosing who bears the cost. The
+model keeps the groups separate on purpose, and does not add them into one score.
+</div>
+
+## Who gives and who pays
+
+Landowners would host a path on their land. The model tests four ways of dealing with them: refuse,
+a one-time payment, yearly payments, or a **donated easement**. Two practical issues matter:
+
+* **Payment level.** A fair one-time price is usually found by comparing the land's value before and after
+  the easement (an appraisal); Maine's constitution requires just compensation when private property is
+  taken for public use.
+* **Liability.** Maine's recreational use law (14 MRSA 159-A) limits an owner's duty of care to people
+  using land for recreation, but not where permission is given **for payment**. Whether paying for an
+  easement loses that protection is a question for a Maine attorney, so the model runs both cases.
+
+```{r liab, fig.height=4.6, out.width="100%"}
+img("outputs/liability_comparison.png")
+```
+
+## Will it happen on its own?
+
+A second step treats the Town (with the Snow Bowl), landowners and local business as players who each
+choose what to do. We ask which outcomes are stable, meaning nobody would change their own choice.
+
+```{r game}
+v <- rd("outputs/liability_protected/game_voluntary_outcomes.csv")
+b <- rd("outputs/liability_protected/game_binding_outcomes.csv")
+m <- rd("outputs/liability_protected/game_mechanism_comparison.csv")
+w <- m[m$mechanism == "voluntary" & m$w_town_on_residents == 0.5, ]
+```
+
+With the placeholder numbers, **a path is a stable outcome in about `r round(100 * w$prob_path_stable)`% of the
+simulated worlds, and doing nothing is stable in about `r round(100 * w$prob_status_quo_stable)`%**. Both can
+hold at once, which is a coordination problem: everyone could be better off, but only if it all happens
+together. The most promising version is the one where landowners **donate** easements, because nobody has
+to pay them (the tax treatment needs a tax advisor).
+
+In an earlier version of this model the Snow Bowl was a separate player, and the Town looked like the
+blocker. Counting the Snow Bowl's gains inside the Town's own books changed that. It is a good example of
+why it matters how we draw the boundaries.
+
+```{r grid, out.width="100%"}
+img("outputs/liability_protected/mechanism_design_grid.png")
+```
+
+The chart above asks how often all three players end up better off, depending on how much local business
+shares the Town's cost and how much outside grant money covers the capital cost. With these placeholders, more grant money helps
+a lot and asking business for more does not.
+
+## What we need from you
+
+1. **Real numbers:** what do trips, injuries, upkeep and visitor spending look like today?
+2. **Landowner views:** what would make hosting acceptable: a payment, a donation, a liability guarantee?
+3. **The Snow Bowl's books:** how much of a path's added margin could be earmarked?
+4. **Anyone missing:** which voices should be added (state park, fire and EMS, school)?
+
+The model, data and code are open: see the [repository](https://github.com/CWWhitney/camden_carriage_road)
+and the longer [technical vignette](vignette.html). Comments and corrections are welcome.
+
+<small>Map data: (c) OpenStreetMap contributors. Parcels: Maine GeoLibrary (town-submitted; some data are
+old). Elevation: USGS 3DEP. Budget facts: Town of Camden FY2026 municipal budget message. All benefit and cost
+inputs in the charts are placeholders.</small>

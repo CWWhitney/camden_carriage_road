@@ -12,9 +12,10 @@
 #   oneoff_mult multiple of the base one-off easement payment to hosts (0 = none)
 #   annual_mult multiple of the base annual payment to hosts (0 = none)
 #   donated     1 = hosts donate the easement (no payment; they get a tax benefit and extra pride)
-#   binding     1 = binding cost-sharing agreement: Snow Bowl and business must pay their share of
-#               host payments AND a share of the Town's net capital and upkeep cost of the path
-#   All payments to hosts are funded by the beneficiary pool (Snow Bowl, business, Town).
+#   binding     1 = binding cost-sharing agreement: local business must pay its share of host
+#               payments AND a share of the Town's net capital and upkeep cost of the path
+#   All payments to hosts are funded by local business (its share) and the Town. The Snow Bowl is
+#   a Town-owned special revenue fund, not a separate payer: see stakeholders/08_town.R.
 #   speed_limit 1 = lower speed limit on the road
 # status_quo is implicit: every outcome is a change from it.
 options_tbl <- data.frame(
@@ -73,19 +74,17 @@ shared_inputs <- rbind(
   E("annual_payment_per_ha", 200, 1200, "posnorm", "Base annual payment to hosts (USD/ha/yr)"),
   E("donation_tax_benefit_share", 0.05, 0.35, "posnorm", "Tax benefit of donating an easement, as a share of the value of the land given (placeholder; needs a tax advisor)"),
   E("town_cost_share", 0.2, 0.6, "tnorm_0_1", "Town share of the non-grant capital and upkeep cost of the path"),
-  E("mech_capshare_snowbowl", 0.05, 0.25, "tnorm_0_1", "Binding agreement: share of the Town's net capital and upkeep cost paid by the Snow Bowl"),
   E("mech_capshare_business", 0.02, 0.1, "tnorm_0_1", "Binding agreement: share of the Town's net capital and upkeep cost paid by local business"),
   E("liability_exposed_mult", 3, 15, "posnorm", "Multiple on host liability cost if payments void the recreational-use protection (used only in the exposed scenario)"),
   E("mitigation_cost_mult", 1.1, 1.5, "posnorm", "Capital cost multiple for the mitigated design"),
-  E("comp_share_snowbowl", 0.3, 0.6, "tnorm_0_1", "Share of host payments paid by the Snow Bowl (town-owned: its own budget or foundation money)"),
-  E("comp_share_business", 0.01, 0.1, "tnorm_0_1", "Share of host payments paid by local business (town pays the rest)"),
+  E("comp_share_business", 0.01, 0.1, "tnorm_0_1", "Share of host payments paid by local business (the Town pays the rest, from the General Fund and/or Snow Bowl fund)"),
   E("speed_risk_mult", 0.75, 0.95, "tnorm_0_1", "Injury risk multiple from a lower speed limit"),
   E("speed_delay_min_per_car_trip", 0.5, 2, "posnorm", "Extra minutes per car trip from the lower speed limit")
 )
 
 # Change versus status quo for one option. p = named list of all inputs.
 # Stage 2 (game) switches, all default 1 so Stage 1 is unchanged:
-#   sb_pays / tb_pays  whether the Snow Bowl / business pay their share of host payments
+#   tb_pays            whether local business pays its share of host payments
 #                      (if not, the Town covers that share)
 #   binding            1 = apply the binding cost-sharing agreement whatever the option
 #   hosts              0 = landowners refuse: no private land taken, no host payments
@@ -93,7 +92,16 @@ shared_inputs <- rbind(
 #                      so base liability cost applies. "exposed": paid permission counts as
 #                      "consideration" and voids it, so host liability cost is multiplied.
 #                      Legal status is unresolved, so both are run as scenarios.
-physical_delta <- function(p, option, sb_pays = 1, tb_pays = 1, hosts = 1,
+# SOURCES FOR THE LEGAL ASSUMPTIONS (research 2026-10-05; not legal advice, needs a Maine attorney):
+#   * 14 MRSA section 159-A (recreational use; lists biking; no protection for willful or malicious
+#     failure to warn; not where permission is granted for a consideration):
+#     https://legislature.maine.gov/statutes/14/title14sec159-A.html
+#   * Just compensation for a partial taking = before-and-after fair market value (benchmark for the
+#     one-off easement payment, easement_payment_per_ha). Maine Law Review article on partial
+#     takings, seen only as a search result, not read in full:
+#     https://digitalcommons.mainelaw.maine.edu/mlr/vol27/iss2/5/
+#   * liability_exposed_mult (3x-15x) and the donation tax benefit are PLACEHOLDERS, not sourced.
+physical_delta <- function(p, option, tb_pays = 1, hosts = 1,
                            liability = c("protected", "exposed"), binding = 0) {
   liability <- match.arg(liability)
   o <- options_tbl[options_tbl$option == option, ]
@@ -126,9 +134,7 @@ physical_delta <- function(p, option, sb_pays = 1, tb_pays = 1, hosts = 1,
       liability_mult         = if (liability == "exposed" && (o$oneoff_mult + o$annual_mult) > 0 && hosts == 1)
                                  liability_exposed_mult else 1,
       donated                = o$donated,
-      capshare_snowbowl      = bind * mech_capshare_snowbowl,
       capshare_business      = bind * mech_capshare_business,
-      share_snowbowl         = comp_share_snowbowl * sb_pays,
       share_business         = comp_share_business * tb_pays,
       route_km               = route_km,
       capital_cost           = capital,

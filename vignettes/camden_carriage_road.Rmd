@@ -1,0 +1,155 @@
+---
+title: "One decision, many ontologies: a carriage-road path from Camden to the Snow Bowl"
+author: "Cory Whitney"
+date: "`r format(Sys.Date(), '%d %B %Y')`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    self_contained: true
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, fig.width = 9, fig.height = 6, dpi = 120)
+knitr::opts_knit$set(root.dir = normalizePath(".."))   # run from the project root
+```
+
+```{r setup2, include=FALSE}
+library(ggplot2)
+for (f in list.files("R", full.names = TRUE)) source(f)
+stakeholders <- load_stakeholders("stakeholders")
+rd <- function(f) read.csv(f, stringsAsFactors = FALSE)
+img <- function(...) knitr::include_graphics(normalizePath(c(...)), rel_path = FALSE)
+```
+
+> **Status: a scaffold with placeholder inputs.** Every input range in the stakeholder tables is a
+> placeholder invented so the pipeline runs, except where a table row says it is cited. The route
+> geometry (length, parcels, climb) is measured from public data. Read the results as the *shape* of
+> the problem, not as evidence.
+
+## 1. The decision
+
+Should a separated carriage-road path be built between downtown Camden and the Camden Snow Bowl,
+instead of relying on Hosmer Pond Road? Each stakeholder group sees the same physical change (a few
+hectares of corridor, more trips, some trees) through its own **ontology**: what exists, what causes
+what, and what counts as good or bad. Each ontology is a causal diagram (DAG), an input table and an
+outcome function; they are combined in one `decisionSupport` Monte Carlo model.
+
+The Snow Bowl is **not** a separate party. It is a Town-owned special revenue fund run by Parks and
+Recreation, kept apart from the General Fund (Camden FY2026 municipal budget message). So the Town and
+the Snow Bowl form one ontology and one player, with two budget pockets.
+
+```{r ontologies}
+data.frame(Group = vapply(stakeholders, `[[`, "", "label"),
+           `Sees the road as` = vapply(stakeholders, `[[`, "", "ontology"),
+           Values = vapply(stakeholders, function(s) nrow(s$values), 1L), check.names = FALSE, row.names = NULL)
+```
+
+## 2. The geography (measured)
+
+Routes are cheapest paths on OpenStreetMap roads and trails (`gis/02_routes.R`); parcels are from the
+Maine GeoLibrary and elevation from USGS 3DEP (`gis/03_parcels_elevation.R`).
+
+```{r map, fig.height=6.5}
+plot_routes_map()
+```
+
+```{r gis-tables}
+rs <- rd("gis/outputs/route_summary.csv"); ps <- rd("gis/outputs/parcel_summary.csv")
+merge(rs[, c("route", "length_km", "pct_hosmer_pond_road", "straight_line_km")],
+      ps[, c("route", "parcels_touched", "private_parcels_touched", "public_parcels_touched")], by = "route")
+```
+
+"Parcels touched" are tax parcels within 15 m of the route line. Public means the owner name contains
+Town of, State of, Land Trust or Conservation; private owner names were never downloaded. Parcel data
+are submitted by towns on an unscheduled basis and may be old.
+
+```{r elevation, fig.height=4}
+plot_elevation()
+rd("gis/outputs/grade_summary.csv")
+```
+
+## 3. Stage 1: what each group gains or loses
+
+The bubble matrix shows, for each group's own values, the median change against the status quo (blue
+gain, red loss), sized by magnitude on that value's own scale and faded by uncertainty about the sign.
+
+```{r bubble, fig.width=10, fig.height=13}
+summ <- rd("outputs/liability_protected/value_summary.csv")
+bubble_matrix(summ, stakeholders,
+              options = c("shoulders", "carriage_path", "path_donated", "path_cost_sharing", "partial_path"),
+              title = "Who gains and who loses, in each group's own terms")
+```
+
+```{r heatmap, echo=FALSE, out.width="100%"}
+img("outputs/liability_protected/welfare_heatmap.png")
+```
+
+With the placeholders every option makes some group worse off, so there is no neutral choice: a
+recommendation is a distributional choice. The all-groups Pareto views are in `outputs/`.
+
+## 4. The Town's two pockets
+
+```{r pockets, fig.height=5}
+plot_budget_pockets()
+```
+
+Because the Snow Bowl fund belongs to the Town, the question is not "who among the Town and the Snow
+Bowl pays" but whether the margin the path earns in the Snow Bowl fund can be **earmarked** to the path's
+cost, and what the General Fund must cover. The Snow Bowl fund itself runs close to break even
+(FY2026 budget message), so the margin is a new inflow, not a reserve.
+
+## 5. Stage 2: a game of three players
+
+Players: the Town (including the Snow Bowl), landowners (as one collective player) and local business.
+
+```{r game-tables}
+pick <- function(f) { o <- rd(f); o$nash_prob <- round(o$nash_prob, 2); o[1:6, c("label", "nash_prob", "nash_at_mean")] }
+cat("Voluntary contributions (protected liability scenario)")
+pick("outputs/liability_protected/game_voluntary_outcomes.csv")
+cat("Binding cost-sharing agreement")
+pick("outputs/liability_protected/game_binding_outcomes.csv")
+```
+
+```{r game-plots, echo=FALSE, out.width="100%"}
+img(c("outputs/liability_protected/game_voluntary_nash_probability.png",
+                          "outputs/mechanism_comparison.png", "outputs/liability_protected/mechanism_design_grid.png"))
+```
+
+### What changed when the Snow Bowl joined the Town
+
+An earlier version treated the Snow Bowl as a separate player. With the Snow Bowl's gains counted in the
+Town's own payoff, the Town no longer loses from the path at the median, and a path becomes a stable
+outcome in most simulated worlds. The earlier finding that "the Town is the bottleneck" came from leaving
+those gains out of its payoff. This is a modelling lesson, not yet a result: the Snow Bowl inputs are
+placeholders.
+
+## 6. Liability scenarios
+
+Whether paying hosts for an easement counts as "consideration" under Maine's recreational use
+statute ([14 MRSA 159-A](https://legislature.maine.gov/statutes/14/title14sec159-A.html)) is a legal
+question that needs a Maine attorney. Both cases run as scenarios.
+
+```{r liability, echo=FALSE, out.width="90%"}
+img("outputs/liability_comparison.png")
+```
+
+## 7. Where the numbers come from
+
+* **Placeholders:** all ranges unless marked. See `inputs/all_inputs.csv`.
+* **Cited:** carbon price range in the NPV Pareto view (Rennert et al. 2022). Methods behind the other
+  exchange rates are cited in `R/exchange_rates.R`; their per-unit numbers remain placeholders.
+* **Measured:** route lengths, parcel counts, climb (GIS).
+* **Verified fact:** the Snow Bowl is a Town special revenue fund outside the General Fund.
+
+```{r refs, echo=FALSE, results="asis"}
+cat("**References** (checked against Crossref, 2026-10-05)\n\n")
+cat("* Rennert, K., Errickson, F., Prest, B. C., Rennels, L., Newell, R. G., Pizer, W. (2022). Comprehensive evidence implies a higher social cost of CO2. *Nature* 610, 687-692. https://doi.org/10.1038/s41586-022-05224-9\n")
+cat("* De Neve, J.-E., Clark, A. E., Krekel, C., Layard, R., O'Donnell, G. (2020). Taking a wellbeing years approach to policy choice. *BMJ*, m3853. https://doi.org/10.1136/bmj.m3853\n")
+cat("* Costanza, R., de Groot, R., Sutton, P., van der Ploeg, S., Anderson, S. J., Kubiszewski, I. (2014). Changes in the global value of ecosystem services. *Global Environmental Change* 26, 152-158. https://doi.org/10.1016/j.gloenvcha.2014.04.002\n")
+cat("* Arrow, K., Cropper, M., Gollier, C., Groom, B., Heal, G., Newell, R. (2013). Determining benefits and costs for future generations. *Science* 341, 349-350. https://doi.org/10.1126/science.1235665\n")
+cat("* Drupp, M. A., Freeman, M. C., Groom, B., Nesje, F. (2018). Discounting disentangled. *American Economic Journal: Economic Policy* 10, 109-134. https://doi.org/10.1257/pol.20160240\n")
+```
+
+Map data: (c) OpenStreetMap contributors (ODbL). Parcels: Maine GeoLibrary. Elevation: USGS 3DEP.

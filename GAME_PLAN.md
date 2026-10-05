@@ -23,8 +23,8 @@ also benefit) and where they collide.
 ## 2. Decision and options
 
 Options are **parameter bundles** (see `options_tbl` in
-`R/shared_decision.R`), not just names, so that in Stage 2 a player's
-action can simply change one parameter.
+`R/shared_decision.R`), so that in Stage 2 a player's action can simply
+change one parameter.
 
 | Option | What it is |
 |----|----|
@@ -36,16 +36,16 @@ action can simply change one parameter.
 | `path_annual` | Path with annual payments to hosts instead of a one-off payment. |
 | `path_oneoff_annual` | Path with both a one-off and annual payments. |
 | `path_donated` | Path on donated easements: no payment to hosts, who get a tax benefit and extra pride. No consideration is paid, so the liability exception cannot be triggered. |
-| `path_cost_sharing` | Path under a binding cost-sharing agreement: the Snow Bowl and business must pay their host-payment shares and a share of the Town's net capital and upkeep cost. |
+| `path_cost_sharing` | Path under a binding cost-sharing agreement: local business must pay its host-payment share and a share of the Town's net capital and upkeep cost. |
 | `path_mitigated` | Path with a narrower corridor and less clearing, at higher build cost. |
 | `partial_path` | Path over 40% of the route only. |
 
-All payments to hosts are funded by a beneficiary pool (Snow Bowl, local
-business, and the Town for the remainder). Each payer values a payment
-stream at its own discount rate, which is what makes one-off versus
-annual payments a real design choice: landowners discount heavily, so an
-annual stream is worth less to them than a lump sum of the same nominal
-size.
+All payments to hosts are funded by local business (its share) and the Town for the
+remainder. The Snow Bowl is **not** a separate payer: it is a Town-owned special revenue fund (see
+section 9), so what the Town pays is drawn from two pockets of one budget, the General Fund and the
+Snow Bowl fund. Each payer values a payment stream at its own discount rate, which is what makes
+one-off versus annual payments a real design choice: landowners discount heavily, so an annual stream
+is worth less to them than a lump sum of the same nominal size.
 
 ## Staging
 
@@ -53,67 +53,57 @@ size.
 asked what each group gains or loses under each option, what would they
 see?" Outputs: the Keeney bubble matrix, a welfare heatmap, a
 Pareto-efficiency table and a frontier plot of one group against the
-rest, each on the unit-free welfare index and on within-group NPV. Group welfare is the equal-weight mean of that group's own scaled
-values (an assumption, to be replaced with group-supplied weights). With
-the placeholder inputs every option is Pareto-efficient, because each
-option makes some group worse off. That is the point: no option is
-neutral, so a recommendation implies a distributional choice.
+rest, each on the unit-free welfare index and on within-group NPV. Group
+welfare is the equal-weight mean of that group's own scaled values (an
+assumption, to be replaced with group-supplied weights). With the
+placeholder inputs every option is Pareto-efficient, because each option
+makes some group worse off. That is the point: no option is neutral, so
+a recommendation implies a distributional choice.
 
-**Stage 2 (built, v1): a community of agents who are also the
-decision-makers.** Four players choose actions and the action profile
-maps to one of the Stage 1 configurations (`R/game.R`):
+**Stage 2 (built, v2): a community of agents who are also the decision-makers.** Three
+players choose actions and the action profile maps to one of the Stage 1 configurations
+(`R/game.R`). The Snow Bowl is inside the Town player, because the Town owns it (v1 had it as a fourth
+player; see section 10):
 
 | Player | Actions |
 |----|----|
-| Town of Camden | nothing, shoulders, path |
+| Town of Camden (incl. the Snow Bowl) | nothing, shoulders, path |
 | Landowners (one collective player) | refuse, one-off payment, annual payments, donate the easement |
-| Snow Bowl | free-ride, contribute to host payments |
 | Local business | free-ride, contribute to host payments |
 
-Rules: Town "nothing" gives the status quo; "shoulders" gives widened
-shoulders; "path" gives the carriage path if landowners accept (payment
-form set by their action), or only the 40% on public land with no host
-payments if they refuse. A free-rider's share of host payments falls on
-the Town. A player's payoff is its own group welfare index from Stage 1.
-The Town also puts a weight on residents (cyclists, neighbors, drivers,
-hikers), because elected officials answer to voters and not only to the
-treasury. That weight is a pure placeholder, so the run sweeps it.
+Rules: Town "nothing" gives the status quo; "shoulders" gives widened shoulders; "path" gives the
+carriage path if landowners accept (payment form set by their action), or only the 40% on public land
+with no host payments if they refuse. A free-rider's share of host payments falls on the Town. A
+player's payoff is its own group welfare index from Stage 1. The Town also puts a weight on residents
+(cyclists, neighbors, drivers, hikers), because elected officials answer to voters and the treasury.
+That weight is a pure placeholder, so the run sweeps it.
 
-Two mechanisms are compared. *Voluntary*: the Snow Bowl and business choose whether to contribute
-to host payments. *Binding*: a cost-sharing agreement signed before construction; if the Town builds
-a path, they must pay their host-payment shares and a share of the Town's net capital and upkeep
-cost (placeholder terms: Snow Bowl 5-25%, business 2-10%). Their actions then no longer matter.
+Two mechanisms are compared. *Voluntary*: business chooses whether to contribute to host payments.
+*Binding*: a cost-sharing agreement signed before construction (for example a special assessment); if
+the Town builds a path, business must pay its host-payment share and a share of the Town's net capital
+and upkeep cost (placeholder terms: 2-10%). Its action then no longer matters.
 
-What it computes (all 48 action profiles, 1,500 Monte Carlo worlds, under each mechanism):
+What it computes (all 24 action profiles, 1,500 Monte Carlo worlds, under each mechanism and each
+liability scenario):
 - the probability that each outcome is a pure Nash equilibrium (each Monte Carlo run is a possible
   world, and equilibria are found in every world);
-- equilibria at mean payoffs, and whether they are Pareto-efficient among the four players;
-- sequential (subgame-perfect) outcomes under all 24 orders of moves;
-- the welfare of all 11 groups, bystanders included, under each outcome;
-- sensitivity of all this to the Town's weight on residents;
-- a design sweep of the binding terms (`mechanism_design_grid`): for each pair of Snow Bowl and
-  business capital shares and each landowner form, the share of worlds in which all four players
+- equilibria at mean payoffs, and whether they are Pareto-efficient among the three players;
+- sequential (subgame-perfect) outcomes under all 6 orders of moves;
+- the welfare of all 10 groups, bystanders included, under each outcome;
+- sensitivity to the Town's weight on residents;
+- a design sweep of the binding terms (`mechanism_grid`): for each business capital share and each
+  level of outside grant money, and each landowner form, the share of worlds in which all three players
   are better off than under the status quo.
 
-What the placeholder run shows (shape only, not evidence): the status
-quo is the most likely stable outcome. The Snow Bowl and business gain
-from a path whether or not they pay for it, so voluntary contributions
-fail (the free-rider problem), and the Town's treasury view makes a path
-a net cost. A path appears only if the Town weights residents very
-heavily. That points to mechanisms (a binding cost-sharing agreement, a
-special district, grants) as the next thing to model, not just more
-precise numbers.
-
-Limits of v1: pure equilibria only (no mixed strategies yet); landowners
-act as one player; simultaneous-move and sequential versions are both
-shown but the real timing is itself a question; ties are broken toward
-the most passive action; payoffs are group welfare indices with equal
-weights inside each group.
+Limits of v2: pure equilibria only (no mixed strategies yet); landowners act as one player;
+simultaneous-move and sequential versions are both shown but the real timing is itself a question; ties
+are broken toward the most passive action; payoffs are group welfare indices with equal weights inside
+each group; the Town and Snow Bowl share one discount rate.
 
 ## 3. Architecture
 
 ```         
-shared physical layer  ->  11 stakeholder ontologies  ->  one MC model  ->  summary  ->  bubble matrix
+shared physical layer  ->  10 stakeholder ontologies  ->  one MC model  ->  summary  ->  bubble matrix
 (what changes on the     (each: DAG + input table +    (decisionSupport   (median, P(>0),   (size, color,
  ground; common ground)   outcome function)             mcSimulation)      certainty)        transparency)
 ```
@@ -130,7 +120,7 @@ shared physical layer  ->  11 stakeholder ontologies  ->  one MC model  ->  summ
 - **Summary and plots** (`R/summarize.R`, `R/bubble_plot.R`,
   `R/pareto.R`) and the game layer (`R/game.R`).
 
-## 4. Stakeholder ontologies (v1: 11)
+## 4. Stakeholder ontologies (v2: 10)
 
 | \# | Group | Sees the road as | Example values (unit) |
 |----|----|----|----|
@@ -141,14 +131,13 @@ shared physical layer  ->  11 stakeholder ontologies  ->  one MC model  ->  summ
 | 05 | Cyclists | Danger vs freedom | injuries avoided, health benefit (USD), wellbeing (pts) |
 | 06 | Hikers and walkers | Quiet wild place | access gain (pts), solitude loss (pts), conflicts |
 | 07 | Drivers and road residents | A route to share | delay saved (USD), near-miss stress (pts), speed-limit delay (USD) |
-| 08 | Camden Snow Bowl | A destination to fill | operating margin (USD), staff commute (USD), liability (USD) |
-| 09 | Town of Camden | Budget line and tax base | net public cost (USD), tax gain (USD), EMS savings (USD) |
-| 10 | Tourism and local business | Visitor flow | business margin (USD), jobs (FTE), brand (pts) |
-| 11 | Climate and future residents | Long-run commitments | net tCO2e, social cost (USD), youth mobility (pts) |
+| 08 | Town of Camden (incl. the Snow Bowl) | One budget, two pockets: General Fund and a Town-owned Snow Bowl fund | net public cost (USD), tax gain (USD), EMS savings (USD), Snow Bowl margin (USD), liability (USD) |
+| 09 | Tourism and local business | Visitor flow | business margin (USD), jobs (FTE), brand (pts) |
+| 10 | Climate and future residents | Long-run commitments | net tCO2e, social cost (USD), youth mobility (pts) |
 
 Trees and wildlife were separate stakeholders in the first draft and are
-merged into one ecosystem voice for now (the earlier files are kept in
-`stakeholders_archive/`). They can be split again if the groups' values
+merged into one ecosystem voice for now, and the Snow Bowl and the Town are merged because the Town
+owns the Snow Bowl (the earlier files are kept in `stakeholders_archive/`). They can be split again if the groups' values
 turn out to pull apart.
 
 Design rules for a good ontology file: 1. Own values, own units, own
@@ -191,7 +180,7 @@ with real numbers is the main job after the scaffold works (see phase
 | 2\. Missing voices | Add groups (for example Camden Hills State Park, fire and EMS, school, abutting commercial, cyclists by type) and split groups that are not homogeneous | Stakeholder list agreed |
 | 3\. Real inputs | Replace placeholders: GIS route length and parcel counts, cost per km quotes, crash records, counter data, easement valuation, group interviews and calibrated 90% intervals | Every row has a source note or an elicitation record |
 | 4\. Analysis | Add `status_quo` comparison views, EVPI (which uncertain input matters most), and sensitivity of matrix signs | Report of "where would more information change the decision?" |
-| 4b. Agents (Stage 2, v1 done) | Game layer: players, actions, payoffs from the MC model; Nash equilibria vs the Pareto set | Equilibria computed and compared with Stage 1 (done). Next: mixed strategies, mechanisms (binding cost-sharing), more players (grant agency, advocates) |
+| 4b. Agents (Stage 2, v2 done) | Game layer: three players (Town incl. Snow Bowl, landowners, business), payoffs from the MC model; Nash equilibria vs the Pareto set; binding cost-sharing and grants | Equilibria computed and compared with Stage 1 (done). Next: mixed strategies, more players (grant agency, advocates), bond as a mechanism |
 | 5\. Engagement | Use the matrix and DAGs in a talk or workshop, and let each group redraw its own DAG | Revised DAGs reflect the groups' own words |
 
 ## 8. Decisions so far (Cory)
@@ -208,102 +197,144 @@ with real numbers is the main job after the scaffold works (see phase
     welfare index of a group's own values), and the plan is to replace
     that with group-supplied weights.
 
-## 9. Notes from Cory, and what was done with them
+## 9. Notes from Cory (2026-10-05) and how they were handled
 
-**Payment split between the Town and the Snow Bowl.** Adopted as the working assumption: the
-Snow Bowl pays 30-60% of host payments, local business 1-10%, and the Town the rest. All
-placeholders. Caveat below: the Snow Bowl is town-owned.
+**The Snow Bowl is the Town.** The Town of Camden owns the Snow Bowl and the Parks and Recreation
+Department runs it ([Snow Bowl about page](https://camdensnowbowl.com/about-the-snow-bowl/)). The
+Town's FY2026 municipal budget message lists the Snow Bowl among "the Town's special revenue funds"
+(with Wastewater, Opera House and Paid Parking), separate from the General Fund, and says it "remains
+difficult for the Snow Bowl to turn a profit while also keeping season pass and ticket prices low",
+floating an operating subsidy from the Town ([FY2026 budget PDF](https://cms8.revize.com/revize/camdenmaine/FY%202026%20Municipal%20Budget%20janice%20copy.pdf);
+read directly this session). Pen Bay Pilot coverage describes the fund as an enterprise fund outside
+the Budget Committee's general-fund review (search snippet only, not read in full). So the model now
+has **one Town ontology with two budget pockets**:
 
-**Pareto on within-group discounted NPV.** Built as a second view next to the welfare index
-(`R/exchange_rates.R`, `outputs/*_npv.*`). Each group's values are already discounted at its own
-rate; a group's NPV is the sum of its values times its own exchange rates into USD-equivalent.
-Money values count 1:1, non-money values (wellbeing points, stems, litters) get a placeholder
-shadow price that is uncertain and enters the Monte Carlo, and values that would double count
-another value get zero. Two things to know:
-- Valuing non-money things in dollars is itself an ontological choice. The ecosystem group may
-  refuse to do it, which is why the unit-free index stays alongside.
-- The two views can disagree on sign for some groups (for example neighbors, and landowners under
-  annual payments), so conclusions are sensitive to the exchange rates. That is a finding about
-  what must be elicited, not a bug.
+- the **General Fund** (taxes) pays most of the path's capital and upkeep, winter maintenance and the
+  Town's share of landowner payments;
+- the **Snow Bowl fund** earns the added margin from more visitors (with the growth of mountain
+  biking and bikepacking as the upside case) and carries the extra liability and staff effects.
 
-**Are there existing standards and laws about payment? (research, 2026-10-05).** Short answer: yes,
-and they matter for the model, but this is not legal advice and needs a Maine attorney or
-appraiser.
-- Maine's constitution requires just compensation when private property is taken for public use.
-  For a partial taking the measure is generally the fair market value of the property before
-  minus after the taking (a "before and after" appraisal). Source: a
-  [Maine Law Review article on partial takings](https://digitalcommons.mainelaw.maine.edu/mlr/vol27/iss2/5/),
-  seen only as a search result, not read in full. Eminent domain is the legal backstop, not the
-  plan: a voluntary easement is negotiated, but the before-and-after appraisal is the natural
-  benchmark for what a fair one-off payment looks like.
-- Maine's recreational use statute,
-  [14 MRSA section 159-A](https://legislature.maine.gov/statutes/14/title14sec159-A.html), limits the
-  duty of care of owners and easement holders toward people using land for recreation, and lists
-  biking. The protection does not cover willful or malicious failure to warn, and it does not apply
-  where permission was granted for a consideration (beyond nominal fees or certain state payments).
-  Whether paying landowners for a path easement triggers that exception is a real question for a
-  lawyer, and it could change the liability cost in landowner payoffs and the choice between
-  one-off and annual payments.
-- I did not find, and did not look for, Maine or Camden-specific standard rates for path
-  easements. Easement valuation by appraisal is the likely route.
+A clear and logical solution is an **earmark**: the Snow Bowl fund's added margin is dedicated to the
+path's cost, and the General Fund covers the rest plus whatever grants and business do not. On
+the placeholder run the added Snow Bowl margin is a median of about 342k USD (present value), against
+about 1.18M USD of net capital and upkeep for the Town and about 73k USD of landowner payments (one-off
+case). So an earmark alone covers roughly a quarter to a third of the Town's cost, and grants
+and cost sharing matter. Not verified: the Snow Bowl's own line items and reserves (not found in the
+budget message; the Snow Bowl fund budget is a separate document). The old split parameters
+(`comp_share_snowbowl`, `mech_capshare_snowbowl`) are removed; the earlier files are in
+`stakeholders_archive/`.
 
-**The Snow Bowl is town-owned.** The Town of Camden owns it and the Parks and Recreation Department
-runs it ([Snow Bowl about page](https://camdensnowbowl.com/about-the-snow-bowl/)). Two
-foundations and clubs support it. So "Town versus Snow Bowl" is a split inside one municipality
-(general fund versus Snow Bowl revenue or foundation money), not two independent payers. I have not
-verified whether the Snow Bowl has its own budget line.
+**Pareto on within-group discounted NPV.** A second view next to the welfare index
+(`R/exchange_rates.R`, `outputs/*_npv.*`). Each group's values are already discounted at its own rate;
+a group's NPV is the sum of its values times its own USD-equivalent price. Money values count 1:1,
+non-money values get a shadow price that enters the Monte Carlo, and values that would double count
+another get zero. **This conversion is used only in the NPV Pareto figures** (not in the bubble matrix,
+the welfare index or the game). Sources for every economic transformation in this step are now in the
+header of `R/exchange_rates.R` and in `bib/references.bib`, all checked against Crossref on 2026-10-05:
+- carbon: the range 44-413 USD per tCO2 is taken from Rennert et al. 2022
+  (doi 10.1038/s41586-022-05224-9), whose Crossref abstract gives a mean of 185 USD and a 5-95% range
+  of 44-413 USD (2020 USD);
+- wellbeing points: the method (wellbeing-year conversion) is De Neve et al. 2020
+  (doi 10.1136/bmj.m3853); the USD per point stays a placeholder because no number was taken from it;
+- ecosystem items: the practice of valuing ecosystem services in money is Costanza et al. 2014
+  (doi 10.1016/j.gloenvcha.2014.04.002); per-unit numbers are placeholders;
+- discounting by group: Arrow et al. 2013 (doi 10.1126/science.1235665) and Drupp et al. 2018
+  (doi 10.1257/pol.20160240);
+- brand points and conflict incidents: no source found, placeholders.
+Two things to know: valuing non-money things in dollars is itself an ontological choice (the ecosystem
+group may refuse it, which is why the unit-free index stays), and the two views can disagree on sign for
+some groups, so conclusions are sensitive to the exchange rates. That is a finding about what must be
+elicited, not a bug.
 
-## 10. Decisions on the two open questions (Cory, 2026-10-05)
+**Standards and laws about payment (research, 2026-10-05; not legal advice, needs a Maine attorney or
+appraiser).** The values in the model follow these sources, and the same notes now sit in the code
+header of `physical_delta` (`R/shared_decision.R`) so they are easy to find when assessing the model:
+- Maine's constitution requires just compensation when private property is taken for public use. For a
+  partial taking the measure is generally the fair market value before minus after (a "before and
+  after" appraisal) ([Maine Law Review article on partial
+  takings](https://digitalcommons.mainelaw.maine.edu/mlr/vol27/iss2/5/), seen only as a search
+  result, not read in full). Eminent domain is the legal backstop, not the plan; the appraisal is the
+  natural benchmark for a fair one-off payment (`easement_payment_per_ha`).
+- [14 MRSA section 159-A](https://legislature.maine.gov/statutes/14/title14sec159-A.html) limits the
+  duty of care of owners toward people using land for recreation and lists biking. It does not cover
+  willful or malicious failure to warn, and does not apply where permission is granted for a
+  consideration. Whether paying for an easement triggers that exception drives the two liability
+  scenarios (`liability_exposed_mult`, a placeholder 3x-15x).
+- I did not find Maine or Camden-specific standard rates for path easements.
 
-1. **Snow Bowl stays a separate player** in the game, even though the Town owns it. It is treated
-   as a semi-independent budget with its own foundation and supporters.
+## 10. Decisions on the two open questions (Cory, 2026-10-05, revised)
+
+1. **The Snow Bowl is part of the Town, not a separate player.** Version 1 kept it separate as a
+   semi-independent budget; Cory's note and the Town budget document (section 9) show it is a
+   Town-owned fund, so it is now inside the Town player and ontology. The game has three players.
 2. **Liability: run both legal cases as scenarios** (built in `physical_delta`, `R/compare.R`):
-   - *protected*: hosts keep the Maine recreational-use protection and pay base liability costs.
+   - *protected*: hosts keep the Maine recreational-use protection and pay base liability costs;
    - *exposed*: paid permission counts as consideration, the protection may not apply, and host
-     liability cost is multiplied (placeholder range 3x to 15x, `liability_exposed_mult`).
-   Every analysis (bubble matrix, Pareto views, game) is now written once per scenario in
-   `outputs/liability_protected/` and `outputs/liability_exposed/`, plus
-   `outputs/liability_comparison.*`.
+     liability cost is multiplied (placeholder range 3x to 15x, `liability_exposed_mult`). Every analysis
+     is written once per scenario in `outputs/liability_protected/` and `outputs/liability_exposed/`,
+     plus `outputs/liability_comparison.*`.
 
-What the placeholder run shows: the liability question changes the landowners' case a lot. In the
-protected scenario most path options leave landowners slightly better off at the median; in the
-exposed scenario every path option leaves them worse off, and in more worlds they refuse to host
-(a partial path on public land becomes stable in about 6% of worlds versus almost none). It does
-not change the headline of the game: with these placeholders the status quo stays the most
-likely stable outcome in both, because the Town's own payoff, not the landowners', is what blocks
-a path. The liability multiple only applies to payments, so shoulders are unaffected. Not modeled:
-a donated easement with no payment (which may avoid the consideration exception) and the Town's
-own liability as easement holder. Both are candidates for new options.
+What the placeholder run shows about liability: in the protected scenario most paid path options leave
+landowners better off at the median (one-off payment: about +46k USD); in the exposed scenario every
+paid option leaves them worse off (one-off: about -139k USD), and a donated easement (about -17k USD in
+both) is unaffected. The liability multiple only applies to payments, so shoulders are unaffected. Not
+modeled: the Town's own liability as easement holder (a candidate new option).
 
-## 11. Donated easement and binding cost-sharing (built 2026-10-05)
+## 11. What the placeholder game shows now (shape only, not evidence)
 
-Both were added at Cory's request. What the placeholder run shows (shape only, not evidence):
-- **Binding cost-sharing barely moves the result.** With binding terms, the share of worlds in which
-  some equilibrium builds a path rises by roughly 5 percentage points (for example 27% to 33% at a
-  Town weight of 0.5), and the status quo remains stable in about 70% of worlds. Status quo and path
-  equilibria coexist in many worlds, so this is a coordination problem as well as a free-rider one.
-- **Shifting more cost onto the Snow Bowl and business does not help.** In the design sweep, the
-  share of worlds where all four players gain is highest when the Snow Bowl and business pay
-  nothing toward capital (about 17% for one-off or annual payments, about 32% for a donated
-  easement) and falls as their shares rise. The Town's own payoff stays near zero on average, so it
-  is the Town, not the free-riders, that most often blocks agreement.
-- **The donated easement is the most promising landowner form** in these runs, in both liability
-  scenarios, mainly because nobody has to pay landowners. But it rests on two placeholder
-  assumptions (donation tax benefit, extra pride from donating) that are the first things to check:
-  landowners' median net financial position is negative (about -16k USD) and they gain only through
-  the tax benefit and pride. Tax treatment of easement donations needs a tax advisor; nothing here
-  is tax advice.
-- The path outcomes counted as "path stable" include the partial path when landowners refuse.
+- **Putting the Snow Bowl inside the Town changes the story.** In v1 the Town's own payoff was the
+  bottleneck and the status quo was the most likely stable outcome (path stable in roughly 30% of worlds).
+  With the Snow Bowl's added margin counted in the Town's payoff, a path equilibrium exists in about 62%
+  (voluntary) to 63% (binding) of worlds at a Town weight of 0.5 in the protected scenario, and the status
+  quo is stable in about 45-46%. Both can be stable at once, which is a coordination problem. The earlier
+  "the Town blocks it" result came from leaving the Snow Bowl's gains out of the Town's payoff.
+- **The donated easement is the most promising landowner form**, mainly because nobody has to pay
+  landowners, but it rests on two placeholder assumptions (donation tax benefit, extra pride) that are
+  the first things to check. Landowners' median net financial position is about -17k USD and they gain
+  only through the tax benefit and pride. Tax treatment of easement donations needs a tax advisor.
+- **Binding cost-sharing moves the result very little** (path-stable share rises from about 62% to 63%).
+- **Grants matter more than asking business for more.** In the design sweep, the share of worlds where
+  all three players gain is highest with no business share and 80% outside grants (about 54% for a donated
+  easement in the protected scenario) and falls as business is asked to pay more, down to 2-3% at a 30%
+  business share with 20% grants.
 
 Limits: the mechanism covers the path only (not shoulders); binding shares are fixed per world, not
-negotiated; the Town's weight on residents remains a placeholder that drives much of the result.
+negotiated; the Town's weight on residents remains a placeholder.
 
 ## 12. Open questions
 
-1. Is the Town's payoff the real bottleneck? A Town that weights residents more, or outside money
-   (grants, state funds, a bond) that changes the Town's cost share, might do more than moving cost
-   between the Town and its beneficiaries. Model grants and a bond as mechanisms?
-2. How should donated-easement assumptions (tax benefit, pride) be bounded: tax advisor, land
-   trust, or landowner interviews?
-3. Should the Town and the Snow Bowl share one budget in the game (they are one municipality), as a
-   robustness check on keeping the Snow Bowl separate?
+1. Grants and a bond as mechanisms: grants are swept in `mechanism_grid`; a bond is not yet modeled
+   (the Snow Bowl redevelopment used one).
+2. How should donated-easement assumptions (tax benefit, pride) be bounded: tax advisor, land trust,
+   or landowner interviews?
+3. The Snow Bowl fund's own books: how much of the added margin can really be earmarked, given the
+   fund runs near break even? (Resolved: it shares one budget with the Town in the game.)
+4. Should the discount rate differ between the General Fund and the Snow Bowl fund? One Town rate is
+   used for now.
+
+## 13. GIS workflow: maps of candidate routes (started 2026-10-05)
+
+Goal: compare route concepts on maps and use them to replace placeholder geography in the model (route
+length, land taken, clearing, host parcels). Code and notes are in `gis/`.
+
+First run, on OpenStreetMap data (approximate, see `gis/README.md`): one dominant corridor connects
+downtown Camden and the Snow Bowl's road access, Mechanic Street to Hosmer Pond Road to Barnestown Road,
+at 6.91 km against a 5.98 km straight line. The best route avoiding Hosmer Pond Road is 7.87 km (about
+14% longer).
+
+Parcels and elevation (Cory approved the downloads; `gis/03_parcels_elevation.R`; Maine GeoLibrary
+parcels within 150 m of the routes, USGS 3DEP elevation every 50 m; private owner names were not
+downloaded): a path beside the main corridor touches about 206 tax parcels, 197 privately owned and 9
+public or conservation. The climb from downtown (about 11 m) to the road base (about 137 m) is about
+127 m. Parcel data are submitted by towns on an unscheduled basis and can be old.
+
+Next: missing-link analysis for trail-based routes; feed measured route length, parcel counts and
+private share into `R/shared_decision.R` in place of the placeholders and add the route alternatives as
+options so Stage 1 and the game see the geography.
+
+## 14. Reports and hosting
+
+`vignettes/camden_carriage_road.Rmd` is the technical vignette and `blog/index.Rmd` the plain-language
+blog for the Town of Camden. Both read the files in `outputs/` and `gis/` (no Monte Carlo rerun) and
+knit with `Rscript build_docs.R`, which writes `docs/index.html` (blog) and `docs/vignette.html`. The
+`docs/` folder is what GitHub Pages serves.

@@ -1,4 +1,4 @@
-# Camden to the Snow Bowl: one decision, many ontologies
+# camden_carriage_road: one decision, many ontologies (Camden to the Snow Bowl)
 
 A collection of causal diagrams (DAGs) for a single decision: **should a
 separated carriage-road bike path be built from downtown Camden, Maine to the
@@ -7,11 +7,16 @@ group gets its own DAG, input table and outcome function, reflecting its own
 ontology and values. They combine into one `decisionSupport` Monte Carlo model
 and a Keeney-style bubble matrix.
 
-Start with **[GAME_PLAN.md](GAME_PLAN.md)** for the idea, phases and open questions.
+Start with **[GAME_PLAN.md](GAME_PLAN.md)** for the idea, phases and open questions. The plain-language blog
+is `docs/index.html` and the technical vignette `vignettes/camden_carriage_road.Rmd` (see *Reports* below).
+
+The Snow Bowl is town-owned (a Town special revenue fund), so it is part of the Town ontology and the Town
+player, not a separate one.
 
 > **All input ranges are placeholders** invented so the pipeline runs. They are
-> flagged as such in every input table. No literature is cited. Replace them with
-> measured or elicited values before drawing any conclusion.
+> flagged as such in every input table. The only cited number is the carbon price range in the NPV
+> Pareto view (`R/exchange_rates.R`, `bib/references.bib`, checked against Crossref). Replace the rest
+> with measured or elicited values before drawing any conclusion.
 
 ## Run it
 
@@ -31,11 +36,10 @@ liability scenario (`protected` and `exposed`, see `GAME_PLAN.md` section 10), a
 | `outputs/liability_<scenario>/value_summary.csv` | median, 90% interval, P(>0), certainty, relative size per stakeholder x value x option |
 | `outputs/liability_<scenario>/keeney_bubble_matrix.png` | the bubble matrix |
 | `outputs/liability_<scenario>/welfare_heatmap.png`, `pareto_landowners_vs_others.png`, `pareto_summary.csv` | Stage 1 welfare index per group, Pareto efficiency and frontier |
-| `outputs/liability_<scenario>/welfare_heatmap_npv.png`, `pareto_landowners_vs_others_npv.png`, `pareto_summary_npv.csv` | the same on within-group NPV (placeholder exchange rates in `R/compare.R              compares the two liability scenarios
-R/exchange_rates.R`) |
-| `outputs/liability_<scenario>/game_voluntary_*` and `game_binding_*` (CSVs and plots), `game_mechanism_comparison.csv`, `mechanism_design_grid.*` | Stage 2: equilibria of the agent game, sequential outcomes, welfare of all groups, sensitivity to the Town's weight on residents |
+| `outputs/liability_<scenario>/welfare_heatmap_npv.png`, `pareto_landowners_vs_others_npv.png`, `pareto_summary_npv.csv` | the same on within-group NPV (exchange rates and their sources in `R/exchange_rates.R`) |
+| `outputs/liability_<scenario>/game_voluntary_*` and `game_binding_*` (CSVs and plots), `game_mechanism_comparison.csv`, `mechanism_design_grid.*` | Stage 2: equilibria of the three-player game, sequential outcomes, welfare of all groups, sensitivity to the Town's weight on residents, binding terms vs grants |
 | `outputs/liability_<scenario>/mc_results.rds` | raw MC output |
-| `outputs/mechanism_comparison.png`, `outputs/mechanism_design_grid_both_scenarios.csv` | does binding cost-sharing make a path stable, and which terms leave all four players better off |
+| `outputs/mechanism_comparison.png`, `outputs/mechanism_design_grid_both_scenarios.csv` | does binding cost-sharing make a path stable, and which terms leave all three players better off |
 | `outputs/liability_comparison.png`, `outputs/liability_comparison_*.csv` | protected vs exposed: landowners' net position by option, and the game outcome by scenario |
 
 ## Layout
@@ -50,7 +54,24 @@ R/bubble_plot.R          bubble matrix
 R/pareto.R               welfare index, Pareto dominance, heatmap and frontier plot
 R/exchange_rates.R       each group's own USD-equivalent prices for non-money values (within-group NPV)
 R/game.R                 Stage 2: players, actions, Nash and sequential equilibria
+R/compare.R              compares the two liability scenarios
+R/plots_report.R         map, elevation and budget plots for the vignette and blog
+bib/references.bib       references (checked against Crossref)
+gis/                     OSM routes, Maine parcels, USGS elevation (see gis/README.md)
+vignettes/, blog/        technical vignette and plain-language blog (Rmd)
+docs/                    built HTML served by GitHub Pages (index.html = blog)
 ```
+
+## Reports
+
+```bash
+Rscript run_all.R        # once, to write outputs/
+Rscript build_docs.R     # knits the blog to docs/index.html and the vignette to docs/vignette.html
+```
+
+The reports read `outputs/` and `gis/outputs/`, so they do not rerun the Monte Carlo. To publish, turn on
+GitHub Pages for this repository (Settings, Pages, deploy from branch `main`, folder `/docs`); the blog is then
+at `https://cwwhitney.github.io/camden_carriage_road/`.
 
 ## Add or edit a stakeholder
 

@@ -1,0 +1,5 @@
+"route","length_km","parcels_touched","private_parcels_touched","public_parcels_touched","pct_route_next_to_private","pct_route_next_to_public"
+"A road corridor (Hosmer Pond Road idea)",6.91,206,197,9,100,15
+"B existing trails where possible",6.92,203,194,9,100,15
+"C park land where possible",6.91,206,197,9,100,15
+"D avoiding Hosmer Pond Road",7.87,212,207,5,100,5

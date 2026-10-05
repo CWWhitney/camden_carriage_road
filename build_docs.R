@@ -1,0 +1,5 @@
+# Knit the Town blog and the technical vignette (run from the project root, after run_all.R)
+dir.create("docs", showWarnings = FALSE)
+rmarkdown::render("blog/index.Rmd", output_file = "index.html", output_dir = "docs", quiet = TRUE)
+rmarkdown::render("vignettes/camden_carriage_road.Rmd", output_file = "vignette.html", output_dir = "docs", quiet = TRUE)
+message("Wrote docs/index.html and docs/vignette.html")
