@@ -23,6 +23,13 @@ rd <- function(f) read.csv(f, stringsAsFactors = FALSE)
 img <- function(...) knitr::include_graphics(normalizePath(c(...)), rel_path = FALSE)
 ```
 
+> **Where I am coming from.** I am a Camden resident. I run a non-profit and an LLC in town, and my home is
+> just off Hosmer Pond Road, on Emery Way, on the way to the Snow Bowl. My neighbors and I have discussed
+> this and think a separated path would be a great thing: cycling on the road as it is today is too dangerous,
+> and a safe route could have major benefits. That is my view, and I may be one of the neighbors a path would
+> pass, so I have a personal stake. The model is built to give every group's view equal space, and its
+> inputs are placeholders, so nothing in it should be read as support for that view.
+
 > **Status: a scaffold with placeholder inputs.** Every input range in the stakeholder tables is a
 > placeholder invented so the pipeline runs, except where a table row says it is cited. The route
 > geometry (length, parcels, climb) is measured from public data. Read the results as the *shape* of
