@@ -50,3 +50,8 @@ rsconnect/
 .DS_Store
 # regenerable Monte Carlo draws (about 6 MB per scenario)
 outputs/**/mc_results.rds
+
+# Private: contains owner names, emails and parcel-level route ideas; never commit
+26_GeoffreyScott_*
+gis/private/
+gis/data/parcels_study.gpkg

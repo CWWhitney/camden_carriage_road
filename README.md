@@ -59,6 +59,7 @@ R/plots_report.R         map, elevation and budget plots for the vignette and bl
 bib/references.bib       references (checked against Crossref)
 gis/                     OSM routes, Maine parcels, USGS elevation (see gis/README.md)
 vignettes/, blog/        technical vignette and plain-language blog (Rmd)
+slides/                  talk-style slide deck (Rmd, ioslides; see slides/README.md)
 docs/                    built HTML served by GitHub Pages (index.html = blog)
 ```
 
@@ -66,12 +67,15 @@ docs/                    built HTML served by GitHub Pages (index.html = blog)
 
 ```bash
 Rscript run_all.R        # once, to write outputs/
-Rscript build_docs.R     # knits the blog to docs/index.html and the vignette to docs/vignette.html
+Rscript build_docs.R     # knits the blog to docs/index.html, the vignette to docs/vignette.html, and slides/slides.html
 ```
 
 The reports read `outputs/` and `gis/outputs/`, so they do not rerun the Monte Carlo. To publish, turn on
 GitHub Pages for this repository (Settings, Pages, deploy from branch `main`, folder `/docs`); the blog is then
 at `https://cwwhitney.github.io/camden_carriage_road/`.
+
+A talk-style slide deck (`slides/slides.Rmd`, ioslides) walks through the same argument: one decision, many
+ontologies, the modeling procedure, and what it suggests so far. See `slides/README.md`.
 
 ## Add or edit a stakeholder
 

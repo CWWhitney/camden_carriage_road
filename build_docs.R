@@ -2,4 +2,5 @@
 dir.create("docs", showWarnings = FALSE)
 rmarkdown::render("blog/index.Rmd", output_file = "index.html", output_dir = "docs", quiet = TRUE)
 rmarkdown::render("vignettes/camden_carriage_road.Rmd", output_file = "vignette.html", output_dir = "docs", quiet = TRUE)
-message("Wrote docs/index.html and docs/vignette.html")
+rmarkdown::render("slides/slides.Rmd", quiet = TRUE)
+message("Wrote docs/index.html, docs/vignette.html and slides/slides.html")
