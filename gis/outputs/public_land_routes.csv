@@ -1,0 +1,5 @@
+"route","length_km","busy_road_pct","small_road_pct","trail_pct","new_trail_pct","private_pct","public_pct","road_pct","new_trail_km","private_new_km","private_parcels","gap_km"
+"A  Shortest on existing roads and trails",6.77,67,33,0,0,100,0,100,0,0,1,0
+"B  Shortest with little busy road",7.28,0,20,6,74,56,44,20,5.36,2.13,15,0
+"C  Most public land, little busy road",7.33,0,0,0,100,51,49,0,7.31,3.71,35,0
+"D  South of Hosmer Pond Road",6.72,0,22,7,71,73,27,22,4.81,2.98,22,0

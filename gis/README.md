@@ -70,3 +70,30 @@ and park land do not offer a more direct way into the road base of the Snow Bowl
 4. Feed measured length, land taken and host parcels into `R/shared_decision.R` in place of the
    placeholders, and add the route alternatives as options so Stage 1 and the game see the
    geography.
+
+## Routes through public land (added 2026-11-07)
+
+```bash
+Rscript gis/05_public_land_routes.R
+```
+
+Finds routes from downtown Camden to the Snow Bowl that avoid busy roads and prefer public land, with new
+trail allowed on a 50 m grid: cheap on public or conserved land, costly across private parcels (which are
+counted, since each needs an owner's agreement). One option is forced to run south of Hosmer Pond Road.
+Parcels for the routing area are downloaded once (Maine GeoLibrary); owner names are used in memory only to
+mark public, conserved and water-district land and are never saved.
+
+| File | What |
+|---|---|
+| `gis/outputs/public_land_routes.csv` | the four options: length, share on busy roads, small roads, new trail, private land, parcels crossed |
+| `gis/outputs/public_land_route_family.csv` | all routes found under different weightings, with the ones not beaten on length, busy road and parcels crossed |
+| `gis/outputs/public_land_tradeoff.png` | trade-off chart |
+| `gis/private/` (not committed) | the route map, route geometry and the parcel IDs each route crosses |
+
+Privacy: maps of hypothetical routes over parcel lines are effectively parcel-level crossing lists, so the
+map, the route geometry and the parcel IDs stay in `gis/private/` (ignored by git) until owners are approached.
+
+Limits: routes follow a 50 m grid, so new-trail stretches are corridors, not trail designs. Public land is
+classified from owner-name patterns (town, state, county, land trust, conservation) plus OSM park polygons,
+and parcel data can be years old. OSM tags Fox Trail and Miller Farm as private lanes and some are not
+connected to the main network; gaps under 100 m are bridged and costed. No slopes, wetlands or ledge yet.

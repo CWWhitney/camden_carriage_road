@@ -46,6 +46,13 @@ if (!"water" %in% have) {
   keep <- lapply(geoms, function(x) { if (!"name" %in% names(x)) x$name <- NA_character_; x[, c("osm_id", "name")] })
   save_layer(do.call(rbind, keep), "water"); Sys.sleep(5)
 }
+if (!"waterways" %in% have) {                          # rivers and streams (for Goose River etc.)
+  message("Fetching rivers and streams ...")
+  r <- query(function(q) add_osm_feature(q, key = "waterway", value = c("river", "stream")))
+  ww <- r$osm_lines
+  if (!"name" %in% names(ww)) ww$name <- NA_character_
+  save_layer(ww[, c("osm_id", "name")], "waterways"); Sys.sleep(5)
+}
 if (!"parks" %in% have) {
   message("Fetching parks and protected areas ...")
   r <- query(function(q) add_osm_feature(q, key = "boundary", value = "protected_area"))

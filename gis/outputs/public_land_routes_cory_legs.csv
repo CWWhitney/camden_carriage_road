@@ -1,0 +1,4 @@
+"leg","length_km","busy_road_pct","small_road_pct","trail_pct","new_trail_pct","private_pct","public_pct","restricted_pct","road_pct","new_trail_km"
+"downtown to Fox Trail",3.54,16,69,13,3,97,3,0,85,0.09
+"Fox Trail to Miller Farm",4.67,12,88,0,0,62,0,0,100,0
+"Miller Farm to Snow Bowl",4.88,10,26,0,64,22,64,0,36,3.14
